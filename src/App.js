@@ -6,6 +6,7 @@ function App() {
   const [isSignInFormVisible, setSignInFormVisible] = useState(false);
   const [isDashboardVisible, setDashboardVisible] = useState(false);
   const [isAddHabitFormVisible, setAddHabitFormVisible] = useState(false);
+  const [habits, setHabits] = useState([]);
 
   const showSignUpForm = () => {
     setSignUpFormVisible(true);
@@ -35,6 +36,23 @@ function App() {
     setAddHabitFormVisible(true);
   };
 
+  const addHabit = (habitTitle) => {
+    // Create a copy of the current habits array and add the new habitTitle to it
+    const newHabits = [...habits, habitTitle];
+
+    // Update the habits state with the new array
+    setHabits(newHabits);
+
+    // Hide the "Add Habit" form and show the dashboard
+    showDashboard();
+  };
+
+  const removeHabit = (index) => {
+    const newHabits = [...habits];
+    newHabits.splice(index, 1);
+    setHabits(newHabits);
+  };
+  
   return (
     <div className="app">
       {isSignUpFormVisible && (
@@ -59,7 +77,12 @@ function App() {
         <div className="dashboard">
           <h2>Dashboard</h2>
           <ul className="habit-list">
-            {/* Habit items will be dynamically added here */}
+            {habits.map((habit, index) => (
+              <li key={index}>
+                <span>{habit}</span>
+                <button onClick={() => removeHabit(index)}>Remove Habit</button>
+              </li>
+            ))}
           </ul>
           <button onClick={showAddHabitForm}>Add Habit</button>
         </div>
@@ -70,7 +93,7 @@ function App() {
           <h2>Add Habit</h2>
           <input type="text" className="habit-title" placeholder="Habit Title" />
           <input type="number" className="target-days" placeholder="Target Days Per Week" />
-          <button onClick={showDashboard}>Add Habit</button>
+          <button onClick={() => addHabit(document.querySelector('.habit-title').value)}>Add Habit</button>
           <button onClick={showDashboard}>Back to Dashboard</button>
         </div>
       )}
