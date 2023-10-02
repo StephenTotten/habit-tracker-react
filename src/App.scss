@@ -4,6 +4,28 @@
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #121212; /* Dark background color */
+
+    .header {
+      padding: 20px;
+
+      h1 {
+        color: #fff;
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
   
     .landing {
       padding: 20px;

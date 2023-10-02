@@ -1,49 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.scss';
 
 function App() {
-  const [isSignUpFormVisible, setSignUpFormVisible] = useState(true);
+  const [isSignUpFormVisible, setSignUpFormVisible] = useState(false);
   const [isSignInFormVisible, setSignInFormVisible] = useState(false);
   const [isDashboardVisible, setDashboardVisible] = useState(false);
   const [isAddHabitFormVisible, setAddHabitFormVisible] = useState(false);
   const [habits, setHabits] = useState([]);
+  const [isFormVisible, setFormVisible] = useState(false); // New state to track form visibility
+  const [isAuthenticated, setAuthenticated] = useState(false); // New state to track authentication
+  const habitTitleInputRef = useRef(null);
+  const targetDaysInputRef = useRef(null);
 
   const showSignUpForm = () => {
     setSignUpFormVisible(true);
     setSignInFormVisible(false);
-    setDashboardVisible(false);
-    setAddHabitFormVisible(false);
+    setFormVisible(true); // Show the form when Sign Up is clicked
   };
 
   const showSignInForm = () => {
     setSignUpFormVisible(false);
     setSignInFormVisible(true);
-    setDashboardVisible(false);
-    setAddHabitFormVisible(false);
+    setFormVisible(true); // Show the form when Sign In is clicked
   };
 
   const showDashboard = () => {
     setSignUpFormVisible(false);
     setSignInFormVisible(false);
+    setFormVisible(false); // Hide the form when going to the dashboard
     setDashboardVisible(true);
-    setAddHabitFormVisible(false);
+    setAuthenticated(true); // Set the authenticated state to true
   };
 
   const showAddHabitForm = () => {
     setSignUpFormVisible(false);
     setSignInFormVisible(false);
+    setFormVisible(false); // Hide the form when adding a habit
     setDashboardVisible(false);
     setAddHabitFormVisible(true);
   };
 
   const addHabit = (habitTitle) => {
-    // Create a copy of the current habits array and add the new habitTitle to it
     const newHabits = [...habits, habitTitle];
-
-    // Update the habits state with the new array
     setHabits(newHabits);
-
-    // Hide the "Add Habit" form and show the dashboard
+    
+    // Clear input values using the refs
+    habitTitleInputRef.current.value = '';
+    targetDaysInputRef.current.value = '';
+  
     showDashboard();
   };
 
@@ -52,9 +56,19 @@ function App() {
     newHabits.splice(index, 1);
     setHabits(newHabits);
   };
-  
+
   return (
     <div className="app">
+      <div className="header">
+        <h1>Habit Tracker</h1>
+        {!isAuthenticated && !isFormVisible && ( // Render the buttons only if the form is not visible
+          <div>
+            <button onClick={showSignUpForm}>Sign Up</button>
+            <button onClick={showSignInForm}>Sign In</button>
+          </div>
+        )}
+      </div>
+
       {isSignUpFormVisible && (
         <div className="signup-form">
           <h2>Sign Up</h2>
@@ -91,8 +105,8 @@ function App() {
       {isAddHabitFormVisible && (
         <div className="add-habit-form">
           <h2>Add Habit</h2>
-          <input type="text" className="habit-title" placeholder="Habit Title" />
-          <input type="number" className="target-days" placeholder="Target Days Per Week" />
+          <input type="text" className="habit-title" placeholder="Habit Title" ref={habitTitleInputRef}/>
+          <input type="number" className="target-days" placeholder="Target Days Per Week" ref={targetDaysInputRef}/>
           <button onClick={() => addHabit(document.querySelector('.habit-title').value)}>Add Habit</button>
           <button onClick={showDashboard}>Back to Dashboard</button>
         </div>
