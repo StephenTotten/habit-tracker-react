@@ -1,7 +1,5 @@
-
-import './App.css';
-
 import React, { useState } from 'react';
+import './App.scss';
 
 function App() {
   const [isSignUpFormVisible, setSignUpFormVisible] = useState(true);
@@ -38,29 +36,29 @@ function App() {
   };
 
   return (
-    <div class="app">
+    <div className="app">
       {isSignUpFormVisible && (
-        <div class="signup-form">
+        <div className="signup-form">
           <h2>Sign Up</h2>
-          <input type="email" class="email" placeholder="Email" />
-          <input type="password" class="password" placeholder="Password" />
+          <input type="email" className="email" placeholder="Email" />
+          <input type="password" className="password" placeholder="Password" />
           <button onClick={showDashboard}>Sign Up</button>
         </div>
       )}
 
       {isSignInFormVisible && (
-        <div class="signin-form">
+        <div className="signin-form">
           <h2>Sign In</h2>
-          <input type="email" class="signin-email" placeholder="Email" />
-          <input type="password" class="signin-password" placeholder="Password" />
+          <input type="email" className="signin-email" placeholder="Email" />
+          <input type="password" className="signin-password" placeholder="Password" />
           <button onClick={showDashboard}>Sign In</button>
         </div>
       )}
 
       {isDashboardVisible && (
-        <div class="dashboard">
+        <div className="dashboard">
           <h2>Dashboard</h2>
-          <ul class="habit-list">
+          <ul className="habit-list">
             {/* Habit items will be dynamically added here */}
           </ul>
           <button onClick={showAddHabitForm}>Add Habit</button>
@@ -68,10 +66,10 @@ function App() {
       )}
 
       {isAddHabitFormVisible && (
-        <div class="add-habit-form">
+        <div className="add-habit-form">
           <h2>Add Habit</h2>
-          <input type="text" class="habit-title" placeholder="Habit Title" />
-          <input type="number" class="target-days" placeholder="Target Days Per Week" />
+          <input type="text" className="habit-title" placeholder="Habit Title" />
+          <input type="number" className="target-days" placeholder="Target Days Per Week" />
           <button onClick={showDashboard}>Add Habit</button>
           <button onClick={showDashboard}>Back to Dashboard</button>
         </div>
